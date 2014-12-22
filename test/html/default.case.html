@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Colorpicker test</title>
+
+    <script src="../../lib/es5-shim/es5-shim.js"></script>
+    <script src="../../lib/classlist/classList.js"></script>
+    <script src="../../lib/object-array-utils/src/object.js"></script>
+    <script src="../../lib/object-array-utils/src/array.js"></script>
+    <script type="text/javascript" src="../../lib/dxjs/src/dx.core.js"></script>
+    <script type="text/javascript" src="../../lib/dxjs/src/dx.bem.js"></script>
+    <script type="text/javascript" src="../../lib/dxjs/src/dx.date.js"></script>
+    <script type="text/javascript" src="../../lib/dxjs/src/dx.dom.js"></script>
+    <script type="text/javascript" src="../../lib/dxjs/src/dx.event.js"></script>
+    <script type="text/javascript" src="../../lib/dxjs/src/dx.measure.js"></script>
+    <script type="text/javascript" src="../../lib/dxjs/src/dx.string.js"></script>
+    <script type="text/javascript" src="../../lib/dxjs/src/dx.tmpl.js"></script>
+	<script src="../../lib/dropdown/src/js/dropdown.js"></script>
+    <script src="../../src/js/colorpicker.js"></script>
+    <link rel="stylesheet" href="../css/test.css"/>
+
+    <script>
+        Colorpicker.colorList = [
+            '#511717', '#d90100', '#ff504f', '#ff9695', '#ffc0bf',
+            '#60341d', '#ff5a05', '#ff9c69', '#ffc4a5', '#ffdcc9',
+            '#5a4d1a', '#f2c200', '#ffe05e', '#ffec9e', '#fff4c5',
+            '#445c29', '#91ea2b', '#beff74', '#d8ffac', '#e8ffcd',
+            '#143847', '#008bbe', '#3fccff', '#8ce0ff', '#baecff',
+            '#152448', '#003ac2', '#417aff', '#8dafff', '#bbcfff',
+            '#5d1b30', '#f90051', '#ff6296', '#ffa1c0', '#ffc7d9',
+            '#091e25', '#000000', '#3e525a', '#aeb1b3', '#ffffff'
+        ];
+    </script>
+    <script type="text/javascript">
+        var colorPickers = [];
+        window.onload = function() {
+            Array.prototype.forEach.call(document.querySelectorAll('[data-colorpicker]'), function(input) {
+                colorPickers.push(new Colorpicker(input));
+            })
+        }
+    </script>
+</head>
+<body>
+    <input data-ng-model="default" data-colorpicker type="text" value="" id="default" />
+</body>
+</html>
