@@ -6,6 +6,7 @@
  * @requires DX.Bem
  * @requires DX.Event
  * @requires DropDown
+ * @namespace
  */
 var Colorpicker = (function(DX, window, document, undefined) {
 	'use strict';
@@ -30,6 +31,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		OPTION_TMPL = '<li class="{%= classNames %}" style="background-color: {%= value %}"></li>';
 
 	/**
+	 * Creates new Colorpicker
 	 * @constructor Colorpicker
 	 * @param {HTMLInputElement} input
 	 * @param {Array} colorList
@@ -87,6 +89,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		}
 
 		/**
+		 * @method setColorList
 		 * @param {Array} colors
 		 */
 		function setColorList(colors) {
@@ -144,6 +147,10 @@ var Colorpicker = (function(DX, window, document, undefined) {
 			DX.Bem.hasModifier(block, M_OPEN, CN_COLORPICKER);
 		}
 
+		/**
+		 * @method setColor
+		 * @param {String} color
+		 */
 		function setColor(color) {
 			var index = colorList.indexOf(color);
 
@@ -160,16 +167,45 @@ var Colorpicker = (function(DX, window, document, undefined) {
 
 		this.setColor = setColor;
 		this.setColorList = setColorList;
+		/**
+		 * Get HTMLNode containing colorpicker
+		 * @method getBlock
+		 * @returns {Node}
+		 */
 		this.getBlock = function() {
 			return block;
 		};
+		/**
+		 * Get element which listens to events
+		 * @method getEventTarget
+		 * @returns {Node}
+		 */
 		this.getEventTarget = function() {
 			return input;
 		};
 	};
 })(DX, window, document);
-
+/** @constant
+ * @type {string}
+ * @default
+ * @memberof Colorpicker
+ */
 Colorpicker.E_CREATED = 'colorpicker:created';
+/** @constant
+ * @type {string}
+ * @default
+ * @memberof Colorpicker
+ */
 Colorpicker.E_SET_COLOR_LIST = 'colorpicker:setcolorlist';
+/** @constant
+ * @type {string}
+ * @default
+ * @memberof Colorpicker
+ */
 Colorpicker.E_SET_COLOR = 'colorpicker:setcolor';
+/** @constant
+ * @type {string}
+ * @default
+ * @memberof Colorpicker
+ */
 Colorpicker.E_CHANGED = 'colorpicker:changed';

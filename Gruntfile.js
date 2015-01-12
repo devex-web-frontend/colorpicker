@@ -51,6 +51,20 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		jsdoc : {
+			dist : {
+				src: ['src/js/*.js'],
+				options: {
+					destination: 'doc'
+				}
+			}
+		},
+		jsdoc2md: {
+			oneOutputFile: {
+				src: "src/js/colorpicker.js",
+				dest: "doc/documentation.md"
+			}
+		},
         shell: {
             install: {
                 command: 'node node_modules/bower/bin/bower install'
@@ -70,10 +84,13 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-interactive-shell');
 	grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-jscs-checker');
+	grunt.loadNpmTasks("grunt-jsdoc-to-markdown");
+	grunt.loadNpmTasks('grunt-jsdoc');
 
     grunt.registerTask('install', ['clean:install', 'shell:install']);
     grunt.registerTask('check_style', ['jscs', 'jshint']);
     grunt.registerTask('test', ['check_style', 'clean:css', 'stylus:compile', 'clean:coverage', 'karma:unit']);
     grunt.registerTask('build', ['install', 'test']);
+	grunt.registerTask("doc", "jsdoc2md");
     grunt.registerTask('default', ['build']);
 };
