@@ -93,11 +93,11 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		 * @param {Array} colors
 		 */
 		function setColorList(colors) {
-			if (colors === undefined || colors === null ||  colors.length === 0) {
+			if (!colors ||  colors.length === 0) {
 				colorList = defaults.colorList;
 			} else {
-				colors.forEach(function(color, i) {
-					colorList[i] = color.toLowerCase();
+				colorList = colors.map(function(color) {
+					return color.toLowerCase();
 				});
 			}
 
