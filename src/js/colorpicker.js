@@ -93,10 +93,12 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		 * @param {Array} colors
 		 */
 		function setColorList(colors) {
-			colorList = colors;
-
-			if (colorList === undefined || colorList === null ||  colorList.length === 0) {
+			if (colors === undefined || colors === null ||  colors.length === 0) {
 				colorList = defaults.colorList;
+			} else {
+				colors.forEach(function(color, i) {
+					colorList[i] = color.toLowerCase();
+				});
 			}
 
 			dropDown.setDataList(prepareDataForDropDown(colorList));
@@ -152,6 +154,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		 * @param {String} color
 		 */
 		function setColor(color) {
+			color = color.toLowerCase();
 			var index = colorList.indexOf(color);
 
 			if (index < 0) {
