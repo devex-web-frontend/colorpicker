@@ -53,8 +53,7 @@ describe('Colorpicker', function() {
 			expect(spy).toHaveBeenCalled();
 		});
 
-
-		describe('colors', function(){
+		describe('colorList', function(){
 
 			it('should set colorList from property object Colorpicker.colorList and set input value zero index color', function(){
 				new Colorpicker(testElement);
@@ -74,9 +73,17 @@ describe('Colorpicker', function() {
 				new Colorpicker(testElement);
 
 				expect(testElement.value).toBe('#f5f5f5');
-			})
+			});
 
-		})
+			it('should set colorList from property case insensitively', function(){
+				testElement.colorList = ['#F5F5F5', '#F4FEFE'];
+
+				new Colorpicker(testElement);
+
+				expect(testElement.value).toBe('#f5f5f5');
+			});
+
+		});
 
 	});
 
@@ -167,6 +174,13 @@ describe('Colorpicker', function() {
 			colorPicker.setColor('#dedede');
 
 			expect(testElement.value).toBe('#511717');
+		});
+
+		it('should set input value case insensitively',function(){
+			var colorPicker = new Colorpicker(testElement);
+			colorPicker.setColor('#FEfefe');
+
+			expect(testElement.value).toBe('#fefefe');
 		});
 
 	});
