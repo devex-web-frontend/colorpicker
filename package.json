@@ -25,6 +25,10 @@
   "scripts": {
     "install": "grunt install",
     "test": "grunt test --prod",
-    "build": "grunt build --prod"
+    "build": "grunt build --prod",
+    "grunt": "grunt"
+  },
+  "dependencies": {
+    "grunt-cli": "^0.1.13"
   }
 }
