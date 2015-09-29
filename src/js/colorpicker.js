@@ -17,7 +17,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		CN_COLORPICKER_LABEL = CN_COLORPICKER + '--label',
 		CN_COLORPICKER_VALUE = CN_COLORPICKER + '--value',
 		defaults = {
-			colorList: ['#511717', '#d90100', '#ff504f','#dddddd']
+			colorList: ['#511717', '#d90100', '#ff504f', '#dddddd']
 		},
 		INNER_TMPL = [
 			'<div class="' + CN_COLORPICKER_LABEL + '">',
@@ -37,7 +37,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 	 * @param {Array} colorList
 	 */
 	return function Colorpicker(input, colorList) {
-		var block, valueElement, dropDown;
+		var block, valueElement, dropDown, disabled = input.disabled;
 
 		function init() {
 			initAppearance();
@@ -93,7 +93,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		 * @param {Array} colors
 		 */
 		function setColorList(colors) {
-			if (!colors ||  colors.length === 0) {
+			if (!colors || colors.length === 0) {
 				colorList = defaults.colorList;
 			} else {
 				colorList = colors.map(function(color) {
@@ -125,15 +125,18 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		function showDropDown() {
 			dropDown.show();
 		}
+
 		function hideDropDown() {
 			dropDown.hide();
 		}
 
 		function toggleDropDown() {
-			if (isOpenedState()) {
-				hideDropDown();
-			} else {
-				showDropDown();
+			if (!disabled) {
+				if (isOpenedState()) {
+					hideDropDown();
+				} else {
+					showDropDown();
+				}
 			}
 		}
 
@@ -147,6 +150,20 @@ var Colorpicker = (function(DX, window, document, undefined) {
 
 		function isOpenedState() {
 			DX.Bem.hasModifier(block, M_OPEN, CN_COLORPICKER);
+		}
+
+		/**
+		 * @method setDisabled
+		 */
+		function setDisabled() {
+			disabled = true;
+		}
+
+		/**
+		 * @method setEnabled
+		 */
+		function setEnabled() {
+			disabled = false;
 		}
 
 		/**
@@ -167,6 +184,9 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		}
 
 		init();
+
+		this.setDisabled = setDisabled;
+		this.setEnabled = setEnabled;
 
 		this.setColor = setColor;
 		this.setColorList = setColorList;
