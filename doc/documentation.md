@@ -20,6 +20,8 @@
 **Functions**
 
 * [setColorList(colors)](#setColorList)
+* [setDisabled()](#setDisabled)
+* [setEnabled()](#setEnabled)
 * [setColor(color)](#setColor)
 * [getBlock()](#getBlock)
 * [getEventTarget()](#getEventTarget)
@@ -93,6 +95,10 @@ Creates new Colorpicker
 
 - colors `Array`  
 
+<a name="setDisabled"></a>
+#setDisabled()
+<a name="setEnabled"></a>
+#setEnabled()
 <a name="setColor"></a>
 #setColor(color)
 **Params**
