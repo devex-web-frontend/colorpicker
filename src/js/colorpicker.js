@@ -156,6 +156,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		 * @method setDisabled
 		 */
 		function setDisabled() {
+			hideDropDown();
 			disabled = true;
 		}
 
