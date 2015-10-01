@@ -20,9 +20,9 @@
 **Functions**
 
 * [setColorList(colors)](#setColorList)
+* [setColor(color)](#setColor)
 * [setDisabled()](#setDisabled)
 * [setEnabled()](#setEnabled)
-* [setColor(color)](#setColor)
 * [getBlock()](#getBlock)
 * [getEventTarget()](#getEventTarget)
  
@@ -95,15 +95,19 @@ Creates new Colorpicker
 
 - colors `Array`  
 
-<a name="setDisabled"></a>
-#setDisabled()
-<a name="setEnabled"></a>
-#setEnabled()
 <a name="setColor"></a>
 #setColor(color)
 **Params**
 
 - color `String`  
+
+<a name="setDisabled"></a>
+#setDisabled()
+Disables ColorPicker and hides dropdown
+
+<a name="setEnabled"></a>
+#setEnabled()
+Enables ColorPicker
 
 <a name="getBlock"></a>
 #getBlock()

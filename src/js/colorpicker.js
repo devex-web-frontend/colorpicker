@@ -152,17 +152,11 @@ var Colorpicker = (function(DX, window, document, undefined) {
 			DX.Bem.hasModifier(block, M_OPEN, CN_COLORPICKER);
 		}
 
-		/**
-		 * @method setDisabled
-		 */
 		function setDisabled() {
 			hideDropDown();
 			disabled = true;
 		}
 
-		/**
-		 * @method setEnabled
-		 */
 		function setEnabled() {
 			disabled = false;
 		}
@@ -186,7 +180,16 @@ var Colorpicker = (function(DX, window, document, undefined) {
 
 		init();
 
+		/**
+		 * Disables ColorPicker and hides dropdown
+		 * @method setDisabled
+		 */
 		this.setDisabled = setDisabled;
+
+		/**
+		 * Enables ColorPicker
+		 * @method setEnabled
+		 */
 		this.setEnabled = setEnabled;
 
 		this.setColor = setColor;
