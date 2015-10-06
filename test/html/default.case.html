@@ -21,20 +21,45 @@
 	<link rel="stylesheet" href="../css/test.css"/>
 
 	<script>
+
 		Colorpicker.colorList = [
-			'#511717', '#d90100', '#ff504f', '#ff9695', '#ffc0bf',
-			'#60341d', '#ff5a05', '#ff9c69', '#ffc4a5', '#ffdcc9',
-			'#5a4d1a', '#f2c200', '#ffe05e', '#ffec9e', '#fff4c5',
-			'#445c29', '#91ea2b', '#beff74', '#d8ffac', '#e8ffcd',
-			'#143847', '#008bbe', '#3fccff', '#8ce0ff', '#baecff',
-			'#152448', '#003ac2', '#417aff', '#8dafff', '#bbcfff',
-			'#5d1b30', '#f90051', '#ff6296', '#ffa1c0', '#ffc7d9',
-			'#091e25', '#000000', '#3e525a', '#aeb1b3', '#ffffff'
+			'#ffffff', '#e5e5e5', '#cccccc', '#b5b5b5', '#999999', '#828282',
+			'#666666', '#4f4f4f', '#333333', '#1c1c1c', '#161412',
+			{
+				groupTitle: 'Basic and Studies',
+				colors: [
+					'#962d3e','#d9372c','#de7d2c','#ffc973','#d9d96c','#60994d',
+					'#79bd8f','#00b892','#348899','#14a0b3','#92c4e0'
+				]
+			},
+			{
+				groupTitle: 'Common',
+				colors: [
+					'#ff9999','#ffc799','#fffa99','#d3ff99','#99ff99','#66ffaf',
+					'#99fffa','#99d8ff','#9999ff','#cd99ff','#fa99ff',
+					'#ff6666','#ffaf66','#fffb66','#b8ff66','#66ff66','#66ffaf',
+					'#66fffb','#66beff','#6666ff','#bc66ff','#fb66ff',
+					'#cc2929','#cc7229','#ccc429','#85cc29','#29cc29','#29cc72',
+					'#29ccc4','#298ecc','#5e5ee5','#8b54cc','#c429cc',
+					'#a50000','#a54300','#998e00','#5a9900','#009900','#009941',
+					'#00998e','#006699','#4646af','#5f3c96','#8e0099'
+				]
+			}
 		];
 	</script>
 	<script type="text/javascript">
 		var colorPickers = [];
 		window.onload = function() {
+			var inputColorPicker = document.getElementById('Input_ColorPicker');
+			inputColorPicker.colorList = [
+				'#66fffb','#66beff','#6666ff','#bc66ff','#fb66ff',
+				{
+					groupTitle: 'Group 1',
+					colors: [
+						'#ffffff', '#e5e5e5', '#cccccc', '#b5b5b5', '#999999', '#828282'
+					]
+				}
+			];
 			Array.prototype.forEach.call(document.querySelectorAll('[data-colorpicker]'), function(input) {
 				colorPickers.push(new Colorpicker(input));
 			})
@@ -42,12 +67,17 @@
 	</script>
 </head>
 <body>
-<p>
-	Default: <input data-ng-model="default" data-colorpicker type="text" value="" id="default"/>
-</p>
-
-<p>
-	Disabled: <input data-ng-model="default" data-colorpicker type="text" value="" id="disabled" disabled/>
-</p>
+<fieldset>
+	<legend>Color List from object Colorpicker.colorList</legend>
+	<input data-ng-model="default" data-colorpicker type="text" value=""/>
+</fieldset>
+<fieldset>
+	<legend>Color List from property DOM Element</legend>
+	<input data-ng-model="default" data-colorpicker type="text" value="" id="Input_ColorPicker"/>
+</fieldset>
+<fieldset>
+	<legend>Disabled</legend>
+	<input data-ng-model="default" data-colorpicker type="text" value=""  disabled />
+</fieldset>
 </body>
 </html>

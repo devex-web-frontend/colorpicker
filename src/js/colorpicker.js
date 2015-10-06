@@ -28,6 +28,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 			'</button>',
 			'</div>'
 		].join(''),
+		allColors = [],
 		OPTION_TMPL = '<li class="{%= classNames %}" style="background-color: {%= value %}"></li>';
 
 	/**
@@ -63,7 +64,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 
 			dropDownEventTarget.addEventListener(DropDown.E_SHOWN, setOpenedState, true);
 			dropDownEventTarget.addEventListener(DropDown.E_HIDDEN, removeOpenedState, true);
-			dropDownEventTarget.addEventListener(DropDown.E_CHANGED, dropdownIndexChangeHandler, true);
+			dropDownEventTarget.addEventListener(DropDown.E_CHANGED, dropDownIndexChangeHandler, true);
 
 			input.addEventListener(Colorpicker.E_SET_COLOR_LIST, setColorListHandler);
 			input.addEventListener(Colorpicker.E_SET_COLOR, setColorByInputValue);
@@ -83,9 +84,66 @@ var Colorpicker = (function(DX, window, document, undefined) {
 			block.appendChild(input);
 		}
 
+
 		function setColorListHandler() {
 			colorList = input.colorList || colorList || Colorpicker.colorList;
 			setColorList(colorList);
+		}
+
+		/**
+		 * Create group from color list
+		 * @param {Array} colorList
+		 * @param {string=} title
+		 * @returns {{groupTitle: (*|string), colors: *}}
+		 */
+		function createGroup(colorList, title) {
+			return {
+				groupTitle: title || '',
+				colors: colorList
+			};
+		}
+
+		function getColorGroups(colors) {
+
+			var colorGroups = [];
+
+			if (!colors || colors.length === 0) {
+				colorList = defaults.colorList;
+				colorGroups.push(createGroup(colorList));
+			} else {
+				var colorsWithoutGroup = [];
+
+				colors.forEach(function(color) {
+					if (color.groupTitle) {
+						if (colorsWithoutGroup.length) {
+							colorGroups.push(createGroup(colorsWithoutGroup));
+						}
+						colorGroups.push(createGroup(color.colors, color.groupTitle));
+						colorsWithoutGroup = [];
+					} else {
+						colorsWithoutGroup.push(color);
+					}
+				});
+
+				if (colorsWithoutGroup.length) {
+					colorGroups.push(
+						createGroup(colorsWithoutGroup)
+					);
+				}
+			}
+
+			return colorGroups;
+		}
+
+		/**
+		 * Get all colors from groups
+		 * @param {Array} colorGroups
+		 * @returns {Array}
+		 */
+		function getAllColorsFromGroups(colorGroups) {
+			return colorGroups.reduce(function(colors, colorGroup) {
+				return colors.concat(colorGroup.colors);
+			},[]);
 		}
 
 		/**
@@ -93,27 +151,51 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		 * @param {Array} colors
 		 */
 		function setColorList(colors) {
-			if (!colors || colors.length === 0) {
-				colorList = defaults.colorList;
-			} else {
-				colorList = colors.map(function(color) {
-					return color.toLowerCase();
-				});
-			}
+			var colorGroups = getColorGroups(colors);
 
-			dropDown.setDataList(prepareDataForDropDown(colorList));
-			setColor(colorList[0]);
+			colorGroups = colorGroups.map(function(colorGroup) {
+				colorGroup.colors = formatColors(colorGroup.colors);
+				return colorGroup;
+			});
+			allColors = getAllColorsFromGroups(colorGroups);
+
+			var dataForDropDown = prepareDataForDropDown(colorGroups);
+			dropDown.setDataList(dataForDropDown);
+			setColor(allColors[0]);
 		}
 
-		function dropdownIndexChangeHandler() {
-			setColor(colorList[dropDown.getSelectedIndex()]);
+		/**
+		 * Format color to lower case
+		 * @param {Array} colors
+		 * @returns {Array}
+		 */
+		function formatColors(colors) {
+			return colors.map(function(color) {
+				return color.toLowerCase();
+			});
+		}
+
+
+		function dropDownIndexChangeHandler() {
+			setColor(allColors[dropDown.getSelectedIndex()]);
 			event.trigger(input, Colorpicker.E_CHANGED);
 		}
 
-		function prepareDataForDropDown(colors) {
-			return colors.map(function(value) {
+		/**
+		 * Get data for dropDown
+		 * @param  {{groupTitle:string, options:Array}[]} colorGroups
+		 * @returns {Array}
+		 */
+		function prepareDataForDropDown(colorGroups) {
+
+			return colorGroups.map(function(colorGroup) {
 				return {
-					value: value
+					title: colorGroup.groupTitle || '',
+					options: colorGroup.colors.map(function(value) {
+						return {
+							value: value
+						};
+					})
 				};
 			});
 		}
@@ -167,15 +249,13 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		 */
 		function setColor(color) {
 			color = color.toLowerCase();
-			var index = colorList.indexOf(color);
-
+			var index = allColors.indexOf(color);
 			if (index < 0) {
 				index = 0;
 			}
-
-			valueElement.style.backgroundColor = colorList[index];
+			valueElement.style.backgroundColor = allColors[index];
 			dropDown.setSelectedIndex(index);
-			input.value = colorList[index];
+			input.value = allColors[index];
 		}
 
 		init();
