@@ -16,6 +16,7 @@
 	"browser": true,
 	"globals": {
 		"DX": true,
+		"toString": true,
 		"DropDown": true
 	}
 }

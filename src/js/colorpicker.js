@@ -31,6 +31,27 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		allColors = [],
 		OPTION_TMPL = '<li class="{%= classNames %}" style="background-color: {%= value %}"></li>';
 
+
+	/**
+	 * Check is object variable
+	 * @param {*} param
+	 * @returns {boolean}
+	 */
+	function isObject(param) {
+		var type = typeof param;
+		return type === 'object' && !Array.isArray(param);
+	}
+
+	/**
+	 * Check is string variable
+	 * @param {*} param
+	 * @returns {boolean}
+	 */
+	function isString(param) {
+		return toString.call(param) === '[object String]';
+	}
+
+
 	/**
 	 * Creates new Colorpicker
 	 * @constructor Colorpicker
@@ -114,25 +135,35 @@ var Colorpicker = (function(DX, window, document, undefined) {
 				var colorsWithoutGroup = [];
 
 				colors.forEach(function(color) {
-					if (color.groupTitle) {
-						if (colorsWithoutGroup.length) {
-							colorGroups.push(createGroup(colorsWithoutGroup));
+					if (isObject(color) || isString(color)) {
+						var isItGroup = Array.isArray(color.colors);
+						if (isItGroup) {
+							colorGroups.push(color);
+						} else {
+							colorsWithoutGroup.push(color);
 						}
-						colorGroups.push(createGroup(color.colors, color.groupTitle));
-						colorsWithoutGroup = [];
-					} else {
-						colorsWithoutGroup.push(color);
 					}
 				});
 
 				if (colorsWithoutGroup.length) {
-					colorGroups.push(
+					colorGroups.unshift(
 						createGroup(colorsWithoutGroup)
 					);
 				}
 			}
 
-			return colorGroups;
+			return removeEmptyColorGroup(colorGroups);
+		}
+
+		/**
+		 * Remove  group without colors
+		 * @param {Array} colorGroups
+		 * @returns {Array}
+		 */
+		function removeEmptyColorGroup(colorGroups) {
+			return colorGroups.filter(function(colorGroup) {
+				return colorGroup.colors.length > 0;
+			});
 		}
 
 		/**
@@ -152,16 +183,17 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		 */
 		function setColorList(colors) {
 			var colorGroups = getColorGroups(colors);
-
-			colorGroups = colorGroups.map(function(colorGroup) {
+			colorGroups.forEach(function(colorGroup) {
 				colorGroup.colors = formatColors(colorGroup.colors);
-				return colorGroup;
 			});
 			allColors = getAllColorsFromGroups(colorGroups);
 
 			var dataForDropDown = prepareDataForDropDown(colorGroups);
 			dropDown.setDataList(dataForDropDown);
-			setColor(allColors[0]);
+
+			if (allColors.length) {
+				setColor(allColors[0]);
+			}
 		}
 
 		/**

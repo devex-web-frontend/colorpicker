@@ -22,6 +22,68 @@ describe('Colorpicker', function() {
 	});
 
 
+	describe('dropDownData', function() {
+
+		it('should create one group from colors without group', function() {
+			var dropDown,
+				dataList;
+
+			 new Colorpicker(testElement);
+
+			 dropDown = DropDown.___instance;
+			 dataList = dropDown.getDataList();
+
+			 expect(dataList.length).toEqual(1);
+			 expect(dataList[0].title).toEqual('');
+		});
+
+		it('should create group with passed title' , function() {
+			window.Colorpicker.colorList = [{
+				groupTitle: 'test',
+				colors: ['#000', '#fff']
+			}];
+
+			new Colorpicker(testElement);
+
+			dropDown = DropDown.___instance;
+			dataList = dropDown.getDataList();
+			expect(dataList.length).toEqual(1);
+			expect(dataList[0].title).toEqual('test');
+
+		});
+
+		it('should not create group with blank colors', function() {
+			window.Colorpicker.colorList = [{
+				groupTitle: 'test',
+				colors: []
+			}];
+
+			new Colorpicker(testElement);
+
+			dropDown = DropDown.___instance;
+			dataList = dropDown.getDataList();
+			expect(dataList.length).toEqual(0);
+		});
+
+		it('should create the same number of groups from mixed config', function() {
+			window.Colorpicker.colorList = [
+				'#000', '#fff',
+				{
+					groupTitle: 'test',
+					colors: ['#000', '#fff']
+				},
+				'#000', '#fff'
+			];
+
+			new Colorpicker(testElement);
+
+			dropDown = DropDown.___instance;
+			dataList = dropDown.getDataList();
+			expect(dataList.length).toEqual(2);
+		})
+
+	});
+
 	describe('constructor', function() {
 
 		it('should generate .colorPicker element', function() {

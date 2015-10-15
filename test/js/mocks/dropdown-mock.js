@@ -31,6 +31,9 @@ var DropDownMock = (function(DX, window, document, undefined) {
 		this.setDataList = function(data) {
 			dataList = data;
 		};
+		this.getDataList = function() {
+			return dataList;
+		};
 		this.setSelectedIndex = function(index) {
 			selectedIndex = index;
 		};
