@@ -5,6 +5,7 @@ describe('Colorpicker', function() {
 	var elementTmpl = [
 		'<input  type="text" value="" id="test" />'
 	].join(''),
+	defaultColorList = ['#511717', '#000000', '#fefefe'],
 	colorPicker,
 	testElement;
 
@@ -12,7 +13,7 @@ describe('Colorpicker', function() {
 		document.body.innerHTML = elementTmpl;
 		testElement = document.getElementById('test');
 		window.DropDown = DropDownMock;
-		window.Colorpicker.colorList = ['#511717', '#000000', '#fefefe'];
+		window.Colorpicker.colorList = defaultColorList;
 	});
 
 	afterEach(function() {
@@ -24,61 +25,68 @@ describe('Colorpicker', function() {
 
 	describe('dropDownData', function() {
 
+		var dropDown,
+			dataList,
+			temp,
+			initColorPicker;
+
+		beforeEach(function(){
+
+			initColorPicker = function(colorList) {
+				colorList = colorList || defaultColorList;
+				window.Colorpicker.colorList = colorList;
+				new Colorpicker(testElement);
+
+				dropDown = DropDown.___instance;
+				dataList = dropDown.getDataList();
+			};
+
+			afterEach(function() {
+				window.Colorpicker.colorList = [];
+			});
+
+		});
+
 		it('should create one group from colors without group', function() {
-			var dropDown,
-				dataList;
 
-			 new Colorpicker(testElement);
+			initColorPicker();
 
-			 dropDown = DropDown.___instance;
-			 dataList = dropDown.getDataList();
-
-			 expect(dataList.length).toEqual(1);
-			 expect(dataList[0].title).toEqual('');
+			expect(dataList.length).toEqual(1);
+			expect(dataList[0].title).toEqual('');
 		});
 
 		it('should create group with passed title' , function() {
-			window.Colorpicker.colorList = [{
-				groupTitle: 'test',
-				colors: ['#000', '#fff']
-			}];
-
-			new Colorpicker(testElement);
-
-			dropDown = DropDown.___instance;
-			dataList = dropDown.getDataList();
+			initColorPicker([
+				{
+					groupTitle: 'test',
+					colors: ['#000', '#fff']
+				}
+			]);
 			expect(dataList.length).toEqual(1);
 			expect(dataList[0].title).toEqual('test');
 
 		});
 
 		it('should not create group with blank colors', function() {
-			window.Colorpicker.colorList = [{
-				groupTitle: 'test',
-				colors: []
-			}];
-
-			new Colorpicker(testElement);
-
-			dropDown = DropDown.___instance;
-			dataList = dropDown.getDataList();
-			expect(dataList.length).toEqual(0);
+			initColorPicker([
+				'#000', '#fff',
+				{
+					groupTitle: 'test',
+					colors: []
+				}
+			]);
+			expect(dataList.length).toEqual(1);
 		});
 
 		it('should create the same number of groups from mixed config', function() {
-			window.Colorpicker.colorList = [
+			initColorPicker([
 				'#000', '#fff',
 				{
 					groupTitle: 'test',
 					colors: ['#000', '#fff']
 				},
 				'#000', '#fff'
-			];
-
-			new Colorpicker(testElement);
-
-			dropDown = DropDown.___instance;
-			dataList = dropDown.getDataList();
+			]);
 			expect(dataList.length).toEqual(2);
 		})
 

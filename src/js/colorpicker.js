@@ -124,56 +124,55 @@ var Colorpicker = (function(DX, window, document, undefined) {
 			};
 		}
 
-		function getColorGroups(colors) {
+		function getGroups(colors) {
 
-			var colorGroups = [];
+			var groups = [];
 
 			if (!colors || colors.length === 0) {
 				colorList = defaults.colorList;
-				colorGroups.push(createGroup(colorList));
+				groups.push(createGroup(colorList));
 			} else {
 				var colorsWithoutGroup = [];
 
-				colors.forEach(function(color) {
-					if (isObject(color) || isString(color)) {
-						var isItGroup = Array.isArray(color.colors);
+				colors.forEach(function(item) {
+					if (isObject(item) || isString(item)) {
+						var isItGroup = Array.isArray(item.colors);
 						if (isItGroup) {
-							colorGroups.push(color);
+							groups.push(item);
 						} else {
-							colorsWithoutGroup.push(color);
+							colorsWithoutGroup.push(item);
 						}
 					}
 				});
 
-				if (colorsWithoutGroup.length) {
-					colorGroups.unshift(
-						createGroup(colorsWithoutGroup)
-					);
-				}
+				groups.unshift(
+					createGroup(colorsWithoutGroup)
+				);
+
 			}
 
-			return removeEmptyColorGroup(colorGroups);
+			return removeEmptyGroups(groups);
 		}
 
 		/**
 		 * Remove  group without colors
-		 * @param {Array} colorGroups
+		 * @param {Array} groups
 		 * @returns {Array}
 		 */
-		function removeEmptyColorGroup(colorGroups) {
-			return colorGroups.filter(function(colorGroup) {
-				return colorGroup.colors.length > 0;
+		function removeEmptyGroups(groups) {
+			return groups.filter(function(group) {
+				return group.colors.length > 0;
 			});
 		}
 
 		/**
 		 * Get all colors from groups
-		 * @param {Array} colorGroups
+		 * @param {Array} groups
 		 * @returns {Array}
 		 */
-		function getAllColorsFromGroups(colorGroups) {
-			return colorGroups.reduce(function(colors, colorGroup) {
-				return colors.concat(colorGroup.colors);
+		function getAllColorsFromGroups(groups) {
+			return groups.reduce(function(colors, group) {
+				return colors.concat(group.colors);
 			},[]);
 		}
 
@@ -182,18 +181,20 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		 * @param {Array} colors
 		 */
 		function setColorList(colors) {
-			var colorGroups = getColorGroups(colors);
-			colorGroups.forEach(function(colorGroup) {
-				colorGroup.colors = formatColors(colorGroup.colors);
+			var groups = getGroups(colors);
+			groups.forEach(function(group) {
+				group.colors = formatColors(group.colors);
 			});
-			allColors = getAllColorsFromGroups(colorGroups);
+			allColors = getAllColorsFromGroups(groups);
 
-			var dataForDropDown = prepareDataForDropDown(colorGroups);
-			dropDown.setDataList(dataForDropDown);
-
-			if (allColors.length) {
+			if (!allColors.length) {
+				setColorList(defaults.colorList);
+			} else {
+				var dataForDropDown = prepareDataForDropDown(groups);
+				dropDown.setDataList(dataForDropDown);
 				setColor(allColors[0]);
 			}
+
 		}
 
 		/**
@@ -215,15 +216,15 @@ var Colorpicker = (function(DX, window, document, undefined) {
 
 		/**
 		 * Get data for dropDown
-		 * @param  {{groupTitle:string, options:Array}[]} colorGroups
+		 * @param  {{groupTitle:string, options:Array}[]} groups
 		 * @returns {Array}
 		 */
-		function prepareDataForDropDown(colorGroups) {
+		function prepareDataForDropDown(groups) {
 
-			return colorGroups.map(function(colorGroup) {
+			return groups.map(function(group) {
 				return {
-					title: colorGroup.groupTitle || '',
-					options: colorGroup.colors.map(function(value) {
+					title: group.groupTitle || '',
+					options: group.colors.map(function(value) {
 						return {
 							value: value
 						};
