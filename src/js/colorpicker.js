@@ -126,32 +126,33 @@ var Colorpicker = (function(DX, window, document, undefined) {
 
 		function getGroups(colors) {
 
-			var groups = [];
+			colors = colors  || [];
 
-			if (!colors || colors.length === 0) {
+			var groups = [],
+				colorsWithoutGroup = [];
+
+			colors.forEach(function(item) {
+				if (isObject(item) || isString(item)) {
+					var isItGroup = Array.isArray(item.colors);
+					if (isItGroup) {
+						groups.push(item);
+					} else {
+						colorsWithoutGroup.push(item);
+					}
+				}
+			});
+
+			groups.unshift(
+				createGroup(colorsWithoutGroup)
+			);
+
+			groups = removeEmptyGroups(groups);
+
+			if (!groups.length) {
 				colorList = defaults.colorList;
 				groups.push(createGroup(colorList));
-			} else {
-				var colorsWithoutGroup = [];
-
-				colors.forEach(function(item) {
-					if (isObject(item) || isString(item)) {
-						var isItGroup = Array.isArray(item.colors);
-						if (isItGroup) {
-							groups.push(item);
-						} else {
-							colorsWithoutGroup.push(item);
-						}
-					}
-				});
-
-				groups.unshift(
-					createGroup(colorsWithoutGroup)
-				);
-
 			}
-
-			return removeEmptyGroups(groups);
+			return groups;
 		}
 
 		/**
@@ -187,13 +188,9 @@ var Colorpicker = (function(DX, window, document, undefined) {
 			});
 			allColors = getAllColorsFromGroups(groups);
 
-			if (!allColors.length) {
-				setColorList(defaults.colorList);
-			} else {
-				var dataForDropDown = prepareDataForDropDown(groups);
-				dropDown.setDataList(dataForDropDown);
-				setColor(allColors[0]);
-			}
+			var dataForDropDown = prepareDataForDropDown(groups);
+			dropDown.setDataList(dataForDropDown);
+			setColor(allColors[0]);
 
 		}
 
