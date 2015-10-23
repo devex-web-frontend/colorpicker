@@ -48,7 +48,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 	 * @returns {boolean}
 	 */
 	function isString(param) {
-		return toString.call(param) === '[object String]';
+		return Object.prototype.toString.call(param) === '[object String]';
 	}
 
 
