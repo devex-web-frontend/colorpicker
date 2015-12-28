@@ -5,6 +5,7 @@
  * @requires DX.Dom
  * @requires DX.Bem
  * @requires DX.Event
+ * @requires DX.Tmpl
  * @requires DropDown
  * @namespace
  */
@@ -16,20 +17,27 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		M_OPEN = 'opened',
 		CN_COLORPICKER_LABEL = CN_COLORPICKER + '--label',
 		CN_COLORPICKER_VALUE = CN_COLORPICKER + '--value',
-		defaults = {
+		defaultColors = {
 			colorList: ['#511717', '#d90100', '#ff504f', '#dddddd']
 		},
-		INNER_TMPL = [
-			'<div class="' + CN_COLORPICKER_LABEL + '">',
-			'<button class="button" type="button">',
-			'<span>',
-			'<i class="' + CN_COLORPICKER_VALUE + '"></i>',
-			'</span>',
-			'</button>',
-			'</div>'
-		].join(''),
 		allColors = [],
-		OPTION_TMPL = '<li class="{%= classNames %}" style="background-color: {%= value %}"></li>';
+		defaults = {
+			BUTTON_TMPL: [
+				'<button class="button" type="button">',
+				'<span>',
+				'<i class="' + CN_COLORPICKER_VALUE + '"></i>',
+				'</span>',
+				'</button>'
+			].join(''),
+			ARROW_TMPL: '',
+			INNER_TMPL: [
+				'<div class="' + CN_COLORPICKER_LABEL + '">',
+				'{%= BUTTON_TMPL %}',
+				'{%= ARROW_TMPL %}',
+				'</div>'
+			].join(''),
+			OPTION_TMPL: '<li class="{%= classNames %}" style="background-color: {%= value %}"></li>'
+		};
 
 
 	/**
@@ -57,14 +65,16 @@ var Colorpicker = (function(DX, window, document, undefined) {
 	 * @constructor Colorpicker
 	 * @param {HTMLInputElement} input
 	 * @param {Array} colorList
+	 * @param {Object} customTemplateConfig
 	 */
-	return function Colorpicker(input, colorList) {
-		var block, valueElement, dropDown, disabled = input.disabled;
+	return function Colorpicker(input, colorList, customTemplateConfig) {
+		var block, valueElement, dropDown, config, disabled = input.disabled;
 
 		function init() {
+			config = Object.assign({}, defaults, customTemplateConfig);
 			initAppearance();
 			dropDown = new DropDown(block, {
-				optionTmpl: OPTION_TMPL,
+				optionTmpl: config.OPTION_TMPL,
 				modifiers: [CN_COLORPICKER]
 			});
 			initListeners();
@@ -96,7 +106,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 
 			block = DX.Dom.createElement('div', {
 				className: CN_COLORPICKER,
-				innerHTML: INNER_TMPL
+				innerHTML: DX.Tmpl.process(config.INNER_TMPL, config)
 			});
 
 			valueElement = block.querySelector('.' + CN_COLORPICKER_VALUE);
@@ -126,7 +136,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 
 		function getGroups(colors) {
 
-			colors = colors  || [];
+			colors = colors || [];
 
 			var groups = [],
 				colorsWithoutGroup = [];
@@ -149,7 +159,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 			groups = removeEmptyGroups(groups);
 
 			if (!groups.length) {
-				colorList = defaults.colorList;
+				colorList = defaultColors.colorList;
 				groups.push(createGroup(colorList));
 			}
 			return groups;
@@ -174,7 +184,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		function getAllColorsFromGroups(groups) {
 			return groups.reduce(function(colors, group) {
 				return colors.concat(group.colors);
-			},[]);
+			}, []);
 		}
 
 		/**
