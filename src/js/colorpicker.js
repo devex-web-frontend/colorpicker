@@ -125,7 +125,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		 * Create group from color list
 		 * @param {Array} colorList
 		 * @param {string=} title
-		 * @returns {{groupTitle: (*|string), colors: *}}
+		 * @returns {{groupTitle: string, colors: array}}
 		 */
 		function createGroup(colorList, title) {
 			return {
@@ -223,7 +223,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 
 		/**
 		 * Get data for dropDown
-		 * @param  {{groupTitle:string, options:Array}[]} groups
+		 * @param  {{groupTitle:string, options:Array}} groups
 		 * @returns {Array}
 		 */
 		function prepareDataForDropDown(groups) {

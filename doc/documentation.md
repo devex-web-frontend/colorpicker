@@ -3,7 +3,7 @@
 **Classes**
 
 * [class: Colorpicker](#Colorpicker)
-  * [new Colorpicker(input, colorList)](#new_Colorpicker)
+  * [new Colorpicker(input, colorList, customTemplateConfig)](#new_Colorpicker)
   * [const: Colorpicker.E_CREATED](#Colorpicker.E_CREATED)
   * [const: Colorpicker.E_SET_COLOR_LIST](#Colorpicker.E_SET_COLOR_LIST)
   * [const: Colorpicker.E_SET_COLOR](#Colorpicker.E_SET_COLOR)
@@ -31,20 +31,21 @@
 **Members**
 
 * [class: Colorpicker](#Colorpicker)
-  * [new Colorpicker(input, colorList)](#new_Colorpicker)
+  * [new Colorpicker(input, colorList, customTemplateConfig)](#new_Colorpicker)
   * [const: Colorpicker.E_CREATED](#Colorpicker.E_CREATED)
   * [const: Colorpicker.E_SET_COLOR_LIST](#Colorpicker.E_SET_COLOR_LIST)
   * [const: Colorpicker.E_SET_COLOR](#Colorpicker.E_SET_COLOR)
   * [const: Colorpicker.E_CHANGED](#Colorpicker.E_CHANGED)
 
 <a name="new_Colorpicker"></a>
-##new Colorpicker(input, colorList)
+##new Colorpicker(input, colorList, customTemplateConfig)
 Creates new Colorpicker
 
 **Params**
 
 - input `HTMLInputElement`  
 - colorList `Array`  
+- customTemplateConfig `Object`  
 
 <a name="Colorpicker.E_CREATED"></a>
 ##const: Colorpicker.E_CREATED
