@@ -14,6 +14,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 	var event = DX.Event,
 		CN_COLORPICKER = 'colorPicker',
 		M_OPEN = 'opened',
+		M_DISABLED = 'disabled',
 		CN_COLORPICKER_LABEL = CN_COLORPICKER + '--label',
 		CN_COLORPICKER_VALUE = CN_COLORPICKER + '--value',
 		defaults = {
@@ -69,7 +70,9 @@ var Colorpicker = (function(DX, window, document, undefined) {
 			});
 			initListeners();
 			setColorListHandler();
-
+			if (disabled) {
+				setDisabled();
+			}
 			DX.Event.trigger(input, Colorpicker.E_CREATED, {
 				detail: {
 					block: block,
@@ -93,7 +96,6 @@ var Colorpicker = (function(DX, window, document, undefined) {
 
 		function initAppearance() {
 			var parent = DX.Dom.getParent(input);
-
 			block = DX.Dom.createElement('div', {
 				className: CN_COLORPICKER,
 				innerHTML: INNER_TMPL
@@ -267,10 +269,12 @@ var Colorpicker = (function(DX, window, document, undefined) {
 		function setDisabled() {
 			hideDropDown();
 			disabled = true;
+			DX.Bem.addModifier(block, M_DISABLED);
 		}
 
 		function setEnabled() {
 			disabled = false;
+			DX.Bem.removeModifier(block, M_DISABLED);
 		}
 
 		/**
