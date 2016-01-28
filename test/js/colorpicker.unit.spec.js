@@ -3,11 +3,11 @@
  */
 describe('Colorpicker', function() {
 	var elementTmpl = [
-		'<input  type="text" value="" id="test" />'
-	].join(''),
-	defaultColorList = ['#511717', '#000000', '#fefefe'],
-	colorPicker,
-	testElement;
+			'<input  type="text" value="" id="test" />'
+		].join(''),
+		defaultColorList = ['#511717', '#000000', '#fefefe'],
+		colorPicker,
+		testElement;
 
 	beforeEach(function() {
 		document.body.innerHTML = elementTmpl;
@@ -22,12 +22,41 @@ describe('Colorpicker', function() {
 		window.Colorpicker.colorList = [];
 	});
 
+	describe('disabled', function() {
+
+		var getDisabled;
+
+		beforeEach(function(){
+			testElement.disabled  = true;
+			getDisabled = function() {
+				return  document.querySelectorAll('.colorPicker-disabled');
+			}
+		});
+
+		it('should has modifier `disabled` if input has attribute `disabled`', function() {
+			new Colorpicker(testElement);
+			expect(getDisabled().length).toEqual(1)
+		});
+
+		it('sholud remove  modifier `disabled` on method `setEnabled`', function() {
+			var colorPicker = new Colorpicker(testElement);
+			colorPicker.setEnabled();
+			expect(getDisabled().length).toEqual(0)
+		});
+
+		it('sholud add  modifier `disabled` on method `setDisabled`', function() {
+			test.disabled = false;
+			var colorPicker = new Colorpicker(testElement);
+			colorPicker.setDisabled();
+			expect(getDisabled().length).toEqual(1)
+		})
+
+	});
 
 	describe('dropDownData', function() {
 
 		var dropDown,
 			dataList,
-			temp,
 			initColorPicker;
 
 		beforeEach(function(){
