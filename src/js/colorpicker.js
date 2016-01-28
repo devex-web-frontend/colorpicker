@@ -230,7 +230,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 
 			return groups.map(function(group) {
 				return {
-					title: group.groupTitle || '',
+					label: group.groupTitle || '',
 					options: group.colors.map(function(value) {
 						return {
 							value: value

@@ -52,7 +52,7 @@ describe('Colorpicker', function() {
 			initColorPicker();
 
 			expect(dataList.length).toEqual(1);
-			expect(dataList[0].title).toEqual('');
+			expect(dataList[0].label).toEqual('');
 		});
 
 		it('should create group with passed title' , function() {
@@ -63,7 +63,7 @@ describe('Colorpicker', function() {
 				}
 			]);
 			expect(dataList.length).toEqual(1);
-			expect(dataList[0].title).toEqual('test');
+			expect(dataList[0].label).toEqual('test');
 
 		});
 
