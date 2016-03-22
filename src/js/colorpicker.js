@@ -9,7 +9,7 @@
  * @requires DropDown
  * @namespace
  */
-var Colorpicker = (function(DX, window, document, undefined) {
+var Colorpicker = (function(DX) {
 	'use strict';
 
 	var event = DX.Event,
@@ -335,7 +335,7 @@ var Colorpicker = (function(DX, window, document, undefined) {
 			return input;
 		};
 	};
-})(DX, window, document);
+})(DX);
 /** @constant
  * @type {string}
  * @default
