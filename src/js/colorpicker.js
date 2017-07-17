@@ -1,4 +1,19 @@
 /**
+ * Generates universal unique id
+ * @see https://gist.github.com/gordonbrander/2230317#gistcomment-1618310
+ * @returns {String}
+ */
+function uuid() {
+	'use strict';
+
+	var chr4 = function chr4() {
+		return Math.random().toString(16).slice(-4);
+	};
+	return chr4() + chr4() + "-" + chr4() + "-" + chr4() + "-" + chr4() + "-" + (chr4() + chr4() + chr4());
+}
+
+
+/**
  * @copyright Devexperts
  *
  * @requires DX
@@ -108,9 +123,11 @@ var Colorpicker = (function(DX) {
 			var parent = DX.Dom.getParent(input);
 			block = DX.Dom.createElement('div', {
 				className: CN_COLORPICKER,
+				id: input.id || uuid(),
 				innerHTML: DX.Tmpl.process(config.INNER_TMPL, config)
 			});
 
+			input.removeAttribute('id');
 			valueElement = block.querySelector('.' + CN_COLORPICKER_VALUE);
 
 			parent.insertBefore(block, input);
@@ -273,7 +290,7 @@ var Colorpicker = (function(DX) {
 		}
 
 		function isOpenedState() {
-			DX.Bem.hasModifier(block, M_OPEN, CN_COLORPICKER);
+			return DX.Bem.hasModifier(block, M_OPEN, CN_COLORPICKER);
 		}
 
 		function setDisabled() {
