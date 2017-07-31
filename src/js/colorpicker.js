@@ -135,6 +135,14 @@ var Colorpicker = (function(DX) {
 		}
 
 
+		function destroy() {
+			block.remove();
+			dropDown.getBlock().remove();
+
+			DX.Event.trigger(input, Colorpicker.E_DESTROYED);
+		}
+
+
 		function setColorListHandler() {
 			colorList = input.colorList || colorList || Colorpicker.colorList;
 			setColorList(colorList);
@@ -359,6 +367,12 @@ var Colorpicker = (function(DX) {
  * @memberof Colorpicker
  */
 Colorpicker.E_CREATED = 'colorpicker:created';
+/** @constant
+ * @type {string}
+ * @default
+ * @memberof Colorpicker
+ */
+Colorpicker.E_DESTROYED = 'colorpicker:destroyed';
 /** @constant
  * @type {string}
  * @default
