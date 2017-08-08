@@ -136,10 +136,24 @@ var Colorpicker = (function(DX) {
 
 
 		function destroy() {
+			removeListeners();
 			block.remove();
-			dropDown.getBlock().remove();
+			dropDown.destroy();
 
 			DX.Event.trigger(input, Colorpicker.E_DESTROYED);
+		}
+
+		function removeListeners() {
+			var dropDownEventTarget = dropDown.getEventTarget();
+
+			block.removeEventListener(DX.Event.TOUCH_CLICK, toggleDropDown, true);
+
+			dropDownEventTarget.removeEventListener(DropDown.E_SHOWN, setOpenedState, true);
+			dropDownEventTarget.removeEventListener(DropDown.E_HIDDEN, removeOpenedState, true);
+			dropDownEventTarget.removeEventListener(DropDown.E_CHANGED, dropDownIndexChangeHandler, true);
+
+			input.removeEventListener(Colorpicker.E_SET_COLOR_LIST, setColorListHandler);
+			input.removeEventListener(Colorpicker.E_SET_COLOR, setColorByInputValue);
 		}
 
 
