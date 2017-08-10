@@ -135,6 +135,27 @@ var Colorpicker = (function(DX) {
 		}
 
 
+		function destroy() {
+			removeListeners();
+			DX.Event.trigger(input, Colorpicker.E_DESTROYED);
+			block.remove();
+			dropDown.destroy();
+		}
+
+		function removeListeners() {
+			var dropDownEventTarget = dropDown.getEventTarget();
+
+			block.removeEventListener(DX.Event.TOUCH_CLICK, toggleDropDown, true);
+
+			dropDownEventTarget.removeEventListener(DropDown.E_SHOWN, setOpenedState, true);
+			dropDownEventTarget.removeEventListener(DropDown.E_HIDDEN, removeOpenedState, true);
+			dropDownEventTarget.removeEventListener(DropDown.E_CHANGED, dropDownIndexChangeHandler, true);
+
+			input.removeEventListener(Colorpicker.E_SET_COLOR_LIST, setColorListHandler);
+			input.removeEventListener(Colorpicker.E_SET_COLOR, setColorByInputValue);
+		}
+
+
 		function setColorListHandler() {
 			colorList = input.colorList || colorList || Colorpicker.colorList;
 			setColorList(colorList);
@@ -359,6 +380,12 @@ var Colorpicker = (function(DX) {
  * @memberof Colorpicker
  */
 Colorpicker.E_CREATED = 'colorpicker:created';
+/** @constant
+ * @type {string}
+ * @default
+ * @memberof Colorpicker
+ */
+Colorpicker.E_DESTROYED = 'colorpicker:destroyed';
 /** @constant
  * @type {string}
  * @default
