@@ -349,6 +349,12 @@ var Colorpicker = (function(DX) {
 		this.setDisabled = setDisabled;
 
 		/**
+		 * Destroying colorpicker component and its dropdown
+		 * @method destroy
+		 */
+		this.destroy = destroy;
+
+		/**
 		 * Enables ColorPicker
 		 * @method setEnabled
 		 */
