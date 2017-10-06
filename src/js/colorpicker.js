@@ -138,7 +138,6 @@ var Colorpicker = (function(DX) {
 		function destroy() {
 			removeListeners();
 			DX.Event.trigger(input, Colorpicker.E_DESTROYED);
-			block.remove();
 			dropDown.destroy();
 		}
 
