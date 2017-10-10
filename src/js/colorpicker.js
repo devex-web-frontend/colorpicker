@@ -134,10 +134,17 @@ var Colorpicker = (function(DX) {
 			block.appendChild(input);
 		}
 
+		function removeAppearence() {
+			var parent = DX.Dom.getParent(block);
+			parent.insertBefore(input, block);
+			block.remove();
+		}
+
 
 		function destroy() {
 			removeListeners();
 			DX.Event.trigger(input, Colorpicker.E_DESTROYED);
+			removeAppearence();
 			dropDown.destroy();
 		}
 
