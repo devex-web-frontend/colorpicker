@@ -134,6 +134,33 @@ var Colorpicker = (function(DX) {
 			block.appendChild(input);
 		}
 
+		function removeAppearence() {
+			var parent = DX.Dom.getParent(block);
+			parent.insertBefore(input, block);
+			block.remove();
+		}
+
+
+		function destroy() {
+			removeListeners();
+			DX.Event.trigger(input, Colorpicker.E_DESTROYED);
+			removeAppearence();
+			dropDown.destroy();
+		}
+
+		function removeListeners() {
+			var dropDownEventTarget = dropDown.getEventTarget();
+
+			block.removeEventListener(DX.Event.TOUCH_CLICK, toggleDropDown, true);
+
+			dropDownEventTarget.removeEventListener(DropDown.E_SHOWN, setOpenedState, true);
+			dropDownEventTarget.removeEventListener(DropDown.E_HIDDEN, removeOpenedState, true);
+			dropDownEventTarget.removeEventListener(DropDown.E_CHANGED, dropDownIndexChangeHandler, true);
+
+			input.removeEventListener(Colorpicker.E_SET_COLOR_LIST, setColorListHandler);
+			input.removeEventListener(Colorpicker.E_SET_COLOR, setColorByInputValue);
+		}
+
 
 		function setColorListHandler() {
 			colorList = input.colorList || colorList || Colorpicker.colorList;
@@ -328,6 +355,12 @@ var Colorpicker = (function(DX) {
 		this.setDisabled = setDisabled;
 
 		/**
+		 * Destroying colorpicker component and its dropdown
+		 * @method destroy
+		 */
+		this.destroy = destroy;
+
+		/**
 		 * Enables ColorPicker
 		 * @method setEnabled
 		 */
@@ -359,6 +392,12 @@ var Colorpicker = (function(DX) {
  * @memberof Colorpicker
  */
 Colorpicker.E_CREATED = 'colorpicker:created';
+/** @constant
+ * @type {string}
+ * @default
+ * @memberof Colorpicker
+ */
+Colorpicker.E_DESTROYED = 'colorpicker:destroyed';
 /** @constant
  * @type {string}
  * @default

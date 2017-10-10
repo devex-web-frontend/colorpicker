@@ -54,6 +54,8 @@
 		var colorPickers = [];
 		window.onload = function() {
 			var inputColorPicker = document.getElementById('Input_ColorPicker');
+			var buttonDestroyAll = document.getElementById('Button_DestroyAll');
+			var buttonInitAll  = document.getElementById('Button_InitAll');
 			var inputColorPickerGroupWithoutTitle = document.getElementById('Input_ColorPicker_GroupWithoutTitle');
 			inputColorPicker.colorList = [
 				{
@@ -70,9 +72,22 @@
 					]
 				}
 			];
-			Array.prototype.forEach.call(document.querySelectorAll('[data-colorpicker]'), function(input) {
-				colorPickers.push(new Colorpicker(input));
-			})
+
+			buttonInitAll.addEventListener('click', function() {
+				Array.prototype.forEach.call(document.querySelectorAll('[data-colorpicker]'), function(input) {
+					console.log('input', input);
+					colorPickers.push(new Colorpicker(input));
+				})
+			});
+
+			buttonDestroyAll.addEventListener('click', function() {
+				colorPickers.forEach(function(colorpicker) {
+					colorpicker.destroy();
+				});
+				colorPickers = [];
+			});
+
+
 		}
 	</script>
 </head>
@@ -93,5 +108,10 @@
 	<legend>Disabled</legend>
 	<input data-ng-model="default" data-colorpicker type="text" value=""  disabled />
 </fieldset>
+
+<button id="Button_InitAll">Init All</button>
+<button id="Button_DestroyAll">Destroy All</button>
+
+
 </body>
 </html>
