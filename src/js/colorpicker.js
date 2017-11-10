@@ -91,7 +91,8 @@ var Colorpicker = (function(DX) {
 			initAppearance();
 			dropDown = new DropDown(block, {
 				optionTmpl: config.OPTION_TMPL,
-				modifiers: [CN_COLORPICKER]
+				modifiers: [CN_COLORPICKER],
+				animationTime: 0.3
 			});
 			initListeners();
 			setColorListHandler();
