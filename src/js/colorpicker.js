@@ -83,7 +83,7 @@ var Colorpicker = (function(DX) {
 	 * @param {Array} colorList
 	 * @param {Object} customTemplateConfig
 	 */
-	return function Colorpicker(input, colorList, customTemplateConfig) {
+	return function Colorpicker(input, colorList, customTemplateConfig, paletteModel) {
 		var block, valueElement, dropDown, config, disabled = input.disabled;
 
 		function init() {
@@ -117,6 +117,9 @@ var Colorpicker = (function(DX) {
 
 			input.addEventListener(Colorpicker.E_SET_COLOR_LIST, setColorListHandler);
 			input.addEventListener(Colorpicker.E_SET_COLOR, setColorByInputValue);
+			if (paletteModel) {
+				paletteModel.on('E_PALETTE_COLOPICKER_MODEL:CHANGE_COLOR_LIST', setColorList);
+			}
 		}
 
 		function initAppearance() {
@@ -159,6 +162,10 @@ var Colorpicker = (function(DX) {
 
 			input.removeEventListener(Colorpicker.E_SET_COLOR_LIST, setColorListHandler);
 			input.removeEventListener(Colorpicker.E_SET_COLOR, setColorByInputValue);
+
+			if (paletteModel) {
+				paletteModel.off('E_PALETTE_COLOPICKER_MODEL:CHANGE_COLOR_LIST', setColorList);
+			}
 		}
 
 
