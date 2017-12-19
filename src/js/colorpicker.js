@@ -52,7 +52,8 @@ var Colorpicker = (function(DX) {
 				'{%= ARROW_TMPL %}',
 				'</div>'
 			].join(''),
-			OPTION_TMPL: '<li class="{%= classNames %}" style="background-color: {%= value %}"></li>'
+			OPTION_TMPL: '<li class="{%= classNames %}" style="background-color: {%= value %}"></li>',
+			animationTime: 0.3
 		};
 
 
@@ -91,7 +92,8 @@ var Colorpicker = (function(DX) {
 			initAppearance();
 			dropDown = new DropDown(block, {
 				optionTmpl: config.OPTION_TMPL,
-				modifiers: [CN_COLORPICKER]
+				modifiers: [CN_COLORPICKER],
+				animationTime: config.animationTime
 			});
 			initListeners();
 			setColorListHandler();
