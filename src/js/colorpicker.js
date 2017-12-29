@@ -156,7 +156,7 @@ var Colorpicker = (function(DX) {
 		function removeListeners() {
 			var dropDownEventTarget = dropDown.getEventTarget();
 
-			block.removeEventListener(DX.Event.TOUCH_CLICK, toggleDropDown, true);
+			block.removeEventListener('click', toggleDropDown, true);
 
 			dropDownEventTarget.removeEventListener(DropDown.E_SHOWN, setOpenedState, true);
 			dropDownEventTarget.removeEventListener(DropDown.E_HIDDEN, removeOpenedState, true);
