@@ -255,8 +255,6 @@ var Colorpicker = (function(DX) {
 
 			var dataForDropDown = prepareDataForDropDown(groups);
 			dropDown.setDataList(dataForDropDown);
-			setColor(allColors[0]);
-
 		}
 
 		/**
@@ -348,12 +346,18 @@ var Colorpicker = (function(DX) {
 			color = color.toLowerCase();
 			var index = allColors.indexOf(color);
 			if (index < 0) {
-				index = 0;
+                setColorNotFromThePalette(color);
+                return;
 			}
 			valueElement.style.backgroundColor = allColors[index];
 			dropDown.setSelectedIndex(index);
 			input.value = allColors[index];
 		}
+
+        function setColorNotFromThePalette(color) {
+            valueElement.style.backgroundColor = color;
+            input.value = color;
+        }
 
 		init();
 
